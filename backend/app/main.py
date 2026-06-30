@@ -15,10 +15,12 @@ from .models import (
     Opportunity,
     OpportunityCreate,
 )
+from .questions import router as questions_router
 from .scoring import calculate_priority_score, score_explanation
 from .seed import seed_data
 
-app = FastAPI(title="DAEDALUS API", version="0.1.0")
+app = FastAPI(title="DAEDALUS API", version="0.2.0")
+app.include_router(questions_router)
 
 origins = [item.strip() for item in settings.cors_origins.split(",") if item.strip()]
 app.add_middleware(
