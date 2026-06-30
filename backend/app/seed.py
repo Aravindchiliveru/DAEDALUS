@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from .models import Assumption, Evidence, Experiment, Opportunity
+from .models import Assumption, Evidence, Experiment, Opportunity, ResearchQuestion
 
 
 def seed_data(session: Session) -> None:
@@ -79,6 +79,31 @@ def seed_data(session: Session) -> None:
     session.commit()
     for item in opportunities:
         session.refresh(item)
+
+    session.add_all([
+        ResearchQuestion(
+            title="Can industrial sensor drift be inferred without manual calibration?",
+            question_text="Which measurable signals can distinguish true process change from sensor drift?",
+            domain="Sensing and Metrology",
+            category="measurement",
+            why_it_matters="Factories could reduce downtime and improve trust in automated measurements.",
+            current_belief="Drift compensation may be possible using environmental context and redundant signals.",
+            known_facts="Sensors are affected by temperature, humidity, aging, packaging stress, and electrical noise.",
+            unknowns="It is unclear whether drift signatures are separable from real process changes in noisy field conditions.",
+            related_physics="Noise, thermal expansion, material aging, signal transduction, calibration theory.",
+            related_technologies="MEMS sensors, edge analytics, reference sensors, industrial IoT.",
+            suggested_experiment="Run low-cost sensors beside a reference instrument under controlled temperature variation.",
+            status="open",
+            review_date="2026-07-30",
+            scientific_importance=7,
+            engineering_impact=8,
+            commercial_relevance=8,
+            feasibility=6,
+            novelty=6,
+            capability_creation=8,
+            urgency=7,
+        )
+    ])
 
     session.add_all([
         Evidence(opportunity_id=opportunities[0].id, claim="Sensor drift is a major operational issue in industrial measurement.", source="Initial research hypothesis", evidence_level=0, confidence_percent=55),
