@@ -33,6 +33,37 @@ class OpportunityCreate(OpportunityBase):
     pass
 
 
+class ResearchQuestionBase(SQLModel):
+    title: str
+    question_text: str
+    domain: str
+    category: str = "engineering"
+    why_it_matters: str
+    current_belief: str = "Unknown"
+    known_facts: str = ""
+    unknowns: str = ""
+    related_physics: str = ""
+    related_technologies: str = ""
+    suggested_experiment: str = ""
+    status: str = "open"
+    review_date: str = ""
+    scientific_importance: int = Field(default=5, ge=0, le=10)
+    engineering_impact: int = Field(default=5, ge=0, le=10)
+    commercial_relevance: int = Field(default=5, ge=0, le=10)
+    feasibility: int = Field(default=5, ge=0, le=10)
+    novelty: int = Field(default=5, ge=0, le=10)
+    capability_creation: int = Field(default=5, ge=0, le=10)
+    urgency: int = Field(default=5, ge=0, le=10)
+
+
+class ResearchQuestion(ResearchQuestionBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+
+
+class ResearchQuestionCreate(ResearchQuestionBase):
+    pass
+
+
 class EvidenceBase(SQLModel):
     opportunity_id: Optional[int] = Field(default=None, foreign_key="opportunity.id")
     claim: str
